@@ -1,10 +1,10 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Avatar} from 'react-native-elements';
 import {ContactCard} from '../../shared';
 
-const data = [
+const datalist = [
   {
     id: '93ad6070-c92b-11e8-b02f-cbfa15db428b',
     firstName: 'Bilbo',
@@ -79,6 +79,9 @@ const data = [
 ];
 const Home = props => {
   const navigation = useNavigation();
+  const handleCardPress = id =>
+    navigation.navigate('ContactDetail', {userId: id, state: 'edit'});
+
   return (
     <View style={styles.container}>
       <View>
@@ -86,15 +89,18 @@ const Home = props => {
       </View>
       <View>
         <TouchableOpacity
-          style={styles.addContact}
-          onPress={() => navigation.navigate('AddContact', {userId: 1})}>
+          style={styles.contactDetail}
+          onPress={() => navigation.navigate('ContactDetail', {state: 'add'})}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
       <View>
-        {data.map((person, i) => (
-          <ContactCard {...person} key={i} />
-        ))}
+        <FlatList
+          data={datalist}
+          renderItem={({item}) => (
+            <ContactCard {...item} onPress={() => handleCardPress(item.id)} />
+          )}
+        />
       </View>
     </View>
   );
@@ -109,9 +115,8 @@ const styles = StyleSheet.create({
   contactTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
   },
-  addContact: {
+  contactDetail: {
     backgroundColor: 'green',
     padding: 15,
     marginVertical: 8,
@@ -120,20 +125,6 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderColor: '#fff',
     alignItems: 'center',
-  },
-  contactWrapper: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 8,
-    flexDirection: 'row',
-  },
-  contactDetail: {
-    marginLeft: 15,
-    justifyContent: 'center',
-  },
-  contactText: {
-    fontSize: 18,
   },
 });
 

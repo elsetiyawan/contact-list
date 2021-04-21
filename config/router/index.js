@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Home, AddContact} from '../../components/screens';
+import {Home, ContactDetail} from '../../components/screens';
 const Stack = createStackNavigator();
 
 const Router = () => {
@@ -10,7 +10,7 @@ const Router = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" headerMode="none">
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="AddContact" component={AddContact} />
+        <Stack.Screen name="ContactDetail" component={ContactDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

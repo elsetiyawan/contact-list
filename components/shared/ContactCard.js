@@ -4,12 +4,11 @@ import {Avatar} from 'react-native-elements';
 
 const ContactCard = props => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={props.onPress}>
       <View style={styles.contactWrapper}>
         <View>
           <Avatar
             overlayContainerStyle={{
-              backgroundColor: 'blue',
               borderRadius: 10,
             }}
             size="medium"
@@ -32,25 +31,6 @@ const ContactCard = props => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#E8EAED',
-  },
-  contactTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  addContact: {
-    backgroundColor: 'green',
-    padding: 15,
-    marginVertical: 8,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#fff',
-    alignItems: 'center',
-  },
   contactWrapper: {
     backgroundColor: '#fff',
     padding: 15,

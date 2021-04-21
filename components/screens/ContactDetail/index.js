@@ -2,7 +2,7 @@ import React from 'react';
 import {useEffect} from 'react';
 import {Text, View} from 'react-native';
 
-const AddContact = props => {
+const ContactDetail = props => {
   useEffect(() => {
     console.log('dari add =>  ', props.route.params.userId);
   }, [props]);
@@ -13,4 +13,4 @@ const AddContact = props => {
   );
 };
 
-export default AddContact;
+export default ContactDetail;
