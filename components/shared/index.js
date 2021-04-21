@@ -1,3 +1,4 @@
 import ContactCard from './ContactCard';
+import ContactForm from './ContactForm';
 
-export {ContactCard};
+export {ContactCard, ContactForm};

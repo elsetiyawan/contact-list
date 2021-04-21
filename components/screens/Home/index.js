@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
   contactTitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
   contactDetail: {
     backgroundColor: 'green',
