@@ -1,14 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import Api from '../../../helpers/Api';
 import {ContactForm} from '../../shared';
 
 const ContactDetail = props => {
+  const api = new Api();
   const [mode] = useState(props.route.params.state);
-  const [initialData, setInitialData] = useState({
-    firstName: '',
-    lastName: '',
-    age: null,
-  });
+  const [initialData, setInitialData] = useState({});
+  useEffect(() => {
+    if (mode === 'edit') {
+      api
+        .getSingleContact(props.route.params.userId)
+        .then(res => setInitialData(res.data.data));
+    }
+  }, []);
+
   const onFormSubmit = values => {
     console.log(values);
   };
@@ -17,7 +23,7 @@ const ContactDetail = props => {
       <View>
         <Text style={styles.contactTitle}>{mode} Contact</Text>
       </View>
-      <ContactForm initialData onFormSubmit={onFormSubmit} />
+      <ContactForm initialData={initialData} onFormSubmit={onFormSubmit} />
     </View>
   );
 };

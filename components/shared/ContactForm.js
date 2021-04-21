@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Formik} from 'formik';
 import {Text, View, StyleSheet} from 'react-native';
 import {Avatar, Button, Input} from 'react-native-elements';
@@ -6,6 +6,7 @@ import {Avatar, Button, Input} from 'react-native-elements';
 const ContactForm = props => {
   return (
     <Formik
+      enableReinitialize
       initialValues={{...props.initialData}}
       onSubmit={props.onFormSubmit}>
       {({values, handleChange, handleSubmit}) => (
@@ -29,8 +30,9 @@ const ContactForm = props => {
           />
           <Input
             label="Age"
-            value={values.age}
+            value={values?.age?.toString()}
             onChangeText={handleChange('age')}
+            keyboardType="numeric"
           />
           <Button title="Submit" onPress={handleSubmit} />
         </View>
