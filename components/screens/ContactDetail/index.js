@@ -3,9 +3,12 @@ import {Text, View, StyleSheet} from 'react-native';
 import Api from '../../../helpers/Api';
 import {ContactForm} from '../../shared';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {setContactList, setLoading} from '../../../store/reducer/Global';
 
 const ContactDetail = props => {
   const api = new Api();
+  const dispatch = useDispatch();
   const navigation = new useNavigation();
   const [mode] = useState(props.route.params.state);
   const [initialData, setInitialData] = useState({});
@@ -17,18 +20,24 @@ const ContactDetail = props => {
     }
   }, []);
 
-  const handleSubmit = values => {
-    if (mode === 'edit') {
-      delete values['id'];
-      api
-        .updateContact(props.route.params.userId, values)
-        .then(() => navigation.navigate('Home'))
-        .catch(err => console.log(err));
-    } else {
-      api
-        .createContact(values)
-        .then(() => navigation.navigate('Home'))
-        .catch(err => console.log(err));
+  const handleSubmit = async values => {
+    dispatch(setLoading(true));
+    delete values['id'];
+    let userSaved;
+    try {
+      if (mode === 'edit') {
+        userSaved = await api.updateContact(props.route.params.userId, values);
+      } else {
+        userSaved = await api.createContact(values);
+      }
+
+      const allContacts = await api.getAllContact().then(res => res.data.data);
+      dispatch(setContactList(allContacts));
+      dispatch(setLoading(false));
+      navigation.navigate('Home');
+    } catch (e) {
+      console.log(e.response.data);
+      dispatch(setLoading(false));
     }
   };
 

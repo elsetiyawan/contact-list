@@ -4,20 +4,33 @@ import {useNavigation} from '@react-navigation/native';
 import {ContactCard} from '../../shared';
 import Api from '../../../helpers/Api';
 import {Icon} from 'react-native-elements';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLoading, setContactList} from '../../../store/reducer/Global';
 
 const Home = props => {
   const api = new Api();
-  const [dataList, setDataList] = useState([]);
+  const global = useSelector(state => state.global);
+  const dispatch = useDispatch();
+  const [dl, setDl] = useState(global.contactList);
   const navigation = useNavigation();
 
   const handleCardPress = id =>
     navigation.navigate('ContactDetail', {userId: id, state: 'edit'});
 
   useEffect(() => {
-    api.getAllContact().then(res => {
-      setDataList(res.data.data);
-    });
-  });
+    dispatch(setLoading(true));
+    api
+      .getAllContact()
+      .then(res => {
+        dispatch(setContactList(res.data.data));
+      })
+      .catch(err => console.log(err))
+      .finally(() => dispatch(setLoading(false)));
+  }, []);
+
+  useEffect(() => {
+    setDl(global.contactList);
+  }, [global.contactList]);
   return (
     <View style={styles.container}>
       <View>
@@ -31,12 +44,14 @@ const Home = props => {
         </TouchableOpacity>
       </View>
       <View style={{marginBottom: 100}}>
-        <FlatList
-          data={dataList}
-          renderItem={({item}) => (
-            <ContactCard {...item} onPress={() => handleCardPress(item.id)} />
-          )}
-        />
+        {!global.loading && (
+          <FlatList
+            data={dl}
+            renderItem={({item}) => (
+              <ContactCard {...item} onPress={() => handleCardPress(item.id)} />
+            )}
+          />
+        )}
       </View>
     </View>
   );
