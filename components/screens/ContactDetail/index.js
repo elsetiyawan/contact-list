@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Api from '../../../helpers/Api';
 import {ContactForm} from '../../shared';
+import {useNavigation} from '@react-navigation/native';
 
 const ContactDetail = props => {
   const api = new Api();
+  const navigation = new useNavigation();
   const [mode] = useState(props.route.params.state);
   const [initialData, setInitialData] = useState({});
   useEffect(() => {
@@ -16,7 +18,17 @@ const ContactDetail = props => {
   }, []);
 
   const onFormSubmit = values => {
-    console.log(values);
+    if (mode === 'edit') {
+      delete values['id'];
+      api
+        .updateContact(props.route.params.userId, values)
+        .then(() => navigation.navigate('Home'));
+    } else {
+      api
+        .createContact(values)
+        .then(() => navigation.navigate('Home'))
+        .catch(err => console.log(err));
+    }
   };
   return (
     <View style={styles.container}>

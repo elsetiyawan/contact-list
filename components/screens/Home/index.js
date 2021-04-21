@@ -81,13 +81,16 @@ const Home = props => {
   const api = new Api();
   const [dataList, setDataList] = useState([]);
   const navigation = useNavigation();
-  
+
   const handleCardPress = id =>
     navigation.navigate('ContactDetail', {userId: id, state: 'edit'});
 
   useEffect(() => {
-    api.getAllContact().then(res => setDataList(res.data.data));
-  }, []);
+    api.getAllContact().then(res => {
+      console.log(res.data.data);
+      setDataList(res.data.data);
+    });
+  });
   return (
     <View style={styles.container}>
       <View>
@@ -100,7 +103,7 @@ const Home = props => {
           <Text>+</Text>
         </TouchableOpacity>
       </View>
-      <View>
+      <View style={{marginBottom: 100}}>
         <FlatList
           data={dataList}
           renderItem={({item}) => (
@@ -115,7 +118,8 @@ const Home = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
     backgroundColor: '#E8EAED',
   },
   contactTitle: {

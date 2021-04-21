@@ -27,4 +27,12 @@ export default class Api {
   getSingleContact = id => {
     return this.init().get(`/contact/${id}`);
   };
+
+  updateContact = (id, payload) => {
+    return this.init().put(`/contact/${id}`, payload);
+  };
+
+  createContact = payload => {
+    return this.init().post('/contact', payload);
+  };
 }
