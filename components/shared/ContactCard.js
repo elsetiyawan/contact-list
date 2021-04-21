@@ -1,23 +1,33 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Avatar} from 'react-native-elements';
+import {isUrlValid} from '../../helpers/Helper';
 
 const ContactCard = props => {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.contactWrapper}>
         <View>
-          <Avatar
-            overlayContainerStyle={{
-              borderRadius: 10,
-            }}
-            size="medium"
-            source={{
-              uri: props.photo
-                ? props.photo
-                : 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
-            }}
-          />
+          {isUrlValid(props.photo) ? (
+            <Avatar
+              overlayContainerStyle={{
+                borderRadius: 10,
+              }}
+              size="medium"
+              source={{
+                uri: props.photo,
+              }}
+            />
+          ) : (
+            <Avatar
+              overlayContainerStyle={{
+                borderRadius: 10,
+                backgroundColor: '#D5D1C3',
+              }}
+              size="medium"
+              title="MD"
+            />
+          )}
         </View>
         <View style={styles.contactDetail}>
           <Text style={styles.contactText}>
@@ -32,7 +42,7 @@ const ContactCard = props => {
 
 const styles = StyleSheet.create({
   contactWrapper: {
-    backgroundColor: '#fff',
+    backgroundColor: '#B1AB94',
     padding: 15,
     borderRadius: 10,
     marginVertical: 8,

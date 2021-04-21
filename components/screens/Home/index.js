@@ -3,80 +3,8 @@ import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ContactCard} from '../../shared';
 import Api from '../../../helpers/Api';
+import {Icon} from 'react-native-elements';
 
-// const datalist = [
-//   {
-//     id: '93ad6070-c92b-11e8-b02f-cbfa15db428b',
-//     firstName: 'Bilbo',
-//     lastName: 'Baggins',
-//     age: 111,
-//     photo:
-//       'http://vignette1.wikia.nocookie.net/lotr/images/6/68/Bilbo_baggins.jpg/revision/latest?cb=20130202022550',
-//   },
-//   {
-//     id: 'b3abd640-c92b-11e8-b02f-cbfa15db428b',
-//     firstName: 'Luke',
-//     lastName: 'Skywalker',
-//     age: 20,
-//     photo: 'N/A',
-//   },
-//   {
-//     firstName: 'something',
-//     lastName: 'asd',
-//     age: 12,
-//     id: 'ddd7f520-a23b-11eb-8e5b-e798ccb4bfd6',
-//     photo: 'N/A',
-//   },
-//   {
-//     firstName: 'qqq',
-//     lastName: 'aaa',
-//     age: 12,
-//     id: '97ddb900-a23c-11eb-8e5b-e798ccb4bfd6',
-//     photo: 'N/A',
-//   },
-//   {
-//     firstName: 'Johnny',
-//     lastName: 'Walker',
-//     age: 41,
-//     photo: 'https://bit.ly/3gn4LCJ',
-//     id: '1aa41dc0-a23d-11eb-8e5b-e798ccb4bfd6',
-//   },
-//   {
-//     firstName: 'Thedeleteendpoint',
-//     lastName: 'notworking',
-//     age: 1,
-//     id: '409b5ac0-a23d-11eb-8e5b-e798ccb4bfd6',
-//     photo: 'N/A',
-//   },
-//   {
-//     firstName: 'AmIRight',
-//     lastName: 'orJustOnlyMe',
-//     age: 2,
-//     id: '4c99e170-a23d-11eb-8e5b-e798ccb4bfd6',
-//     photo: 'N/A',
-//   },
-//   {
-//     firstName: 'tes',
-//     lastName: 'tes',
-//     age: 1,
-//     photo: 'tes',
-//     id: '509726c0-a23d-11eb-8e5b-e798ccb4bfd6',
-//   },
-//   {
-//     firstName: 'DeleteEndpoinPadaBisaGak',
-//     lastName: 'TandaTanya',
-//     age: 1,
-//     id: '8063eff0-a23d-11eb-8e5b-e798ccb4bfd6',
-//     photo: 'N/A',
-//   },
-//   {
-//     firstName: 'aaa',
-//     lastName: 'xccc',
-//     age: 22,
-//     id: '063523b0-a23e-11eb-8e5b-e798ccb4bfd6',
-//     photo: 'N/A',
-//   },
-// ];
 const Home = props => {
   const api = new Api();
   const [dataList, setDataList] = useState([]);
@@ -87,7 +15,6 @@ const Home = props => {
 
   useEffect(() => {
     api.getAllContact().then(res => {
-      console.log(res.data.data);
       setDataList(res.data.data);
     });
   });
@@ -100,7 +27,7 @@ const Home = props => {
         <TouchableOpacity
           style={styles.contactDetail}
           onPress={() => navigation.navigate('ContactDetail', {state: 'add'})}>
-          <Text>+</Text>
+          <Text style={styles.addContact}>Add contact</Text>
         </TouchableOpacity>
       </View>
       <View style={{marginBottom: 100}}>
@@ -120,7 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 20,
     paddingHorizontal: 20,
-    backgroundColor: '#E8EAED',
+    backgroundColor: '#D5D1C3',
   },
   contactTitle: {
     fontSize: 24,
@@ -128,14 +55,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   contactDetail: {
-    backgroundColor: 'green',
+    backgroundColor: '#B1AB94',
     padding: 15,
     marginVertical: 8,
     borderRadius: 10,
     borderWidth: 2,
     borderStyle: 'dashed',
-    borderColor: '#fff',
+    borderColor: '#F2F0E6',
     alignItems: 'center',
+  },
+  addContact: {
+    fontWeight: 'bold',
   },
 });
 

@@ -17,12 +17,13 @@ const ContactDetail = props => {
     }
   }, []);
 
-  const onFormSubmit = values => {
+  const handleSubmit = values => {
     if (mode === 'edit') {
       delete values['id'];
       api
         .updateContact(props.route.params.userId, values)
-        .then(() => navigation.navigate('Home'));
+        .then(() => navigation.navigate('Home'))
+        .catch(err => console.log(err));
     } else {
       api
         .createContact(values)
@@ -30,12 +31,25 @@ const ContactDetail = props => {
         .catch(err => console.log(err));
     }
   };
+
+  const handleDelete = () => {
+    api
+      .deleteContact(props.route.params.userId)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.contactTitle}>{mode} Contact</Text>
       </View>
-      <ContactForm initialData={initialData} onFormSubmit={onFormSubmit} />
+      <ContactForm
+        initialData={initialData}
+        onFormSubmit={handleSubmit}
+        onDelete={handleDelete}
+        mode={mode}
+      />
     </View>
   );
 };
@@ -46,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#E8EAED',
+    backgroundColor: '#D5D1C3',
   },
   contactTitle: {
     fontSize: 24,

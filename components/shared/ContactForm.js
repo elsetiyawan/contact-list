@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Formik} from 'formik';
 import {Text, View, StyleSheet} from 'react-native';
 import {Avatar, Button, Input} from 'react-native-elements';
+import {isUrlValid} from '../../helpers/Helper';
 
 const ContactForm = props => {
   return (
@@ -14,8 +15,9 @@ const ContactForm = props => {
           <Avatar
             size="large"
             source={{
-              uri:
-                'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
+              uri: isUrlValid(props.initialData.photo)
+                ? props.initialData.photo
+                : 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
             }}
           />
           <Input
@@ -34,7 +36,20 @@ const ContactForm = props => {
             onChangeText={handleChange('age')}
             keyboardType="numeric"
           />
-          <Button title="Submit" onPress={handleSubmit} />
+          <View style={{width: '90%'}}>
+            <Button
+              buttonStyle={styles.buttonStyle}
+              title="Save"
+              onPress={handleSubmit}
+            />
+            {/* {props.mode === 'edit' && (
+              <Button
+                buttonStyle={styles.deleteButtonStyle}
+                title="Delete"
+                onPress={props.onDelete}
+              />
+            )} */}
+          </View>
         </View>
       )}
     </Formik>
@@ -59,5 +74,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
+  },
+  buttonStyle: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  deleteButtonStyle: {
+    width: '100%',
+    marginBottom: 20,
+    backgroundColor: 'red',
   },
 });

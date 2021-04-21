@@ -35,4 +35,8 @@ export default class Api {
   createContact = payload => {
     return this.init().post('/contact', payload);
   };
+
+  deleteContact = id => {
+    return this.init().delete(`/contact/${id}`);
+  };
 }
