@@ -35,7 +35,7 @@ const ContactDetail = props => {
       dispatch(setContactList(allContacts));
       dispatch(setLoading(false));
       navigation.navigate('Home');
-    } catch (e) {
+    } catch (err) {
       alert(err.response.data.message);
       dispatch(setLoading(false));
     }
