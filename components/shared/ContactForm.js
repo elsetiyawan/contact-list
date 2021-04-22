@@ -1,16 +1,24 @@
 import React, {useState, useEffect} from 'react';
+import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {Text, View, StyleSheet} from 'react-native';
 import {Avatar, Button, Input} from 'react-native-elements';
 import {isUrlValid} from '../../helpers/Helper';
 
+const DetailContactSchema = Yup.object().shape({
+  firstName: Yup.string().min(3, 'Too short!').required(),
+  lastName: Yup.string().min(3, 'Too short!').required(),
+  age: Yup.number().max(200, 'Too old!').required(),
+});
+
 const ContactForm = props => {
   return (
     <Formik
       enableReinitialize
+      validationSchema={DetailContactSchema}
       initialValues={{...props.initialData}}
       onSubmit={props.onFormSubmit}>
-      {({values, handleChange, handleSubmit}) => (
+      {({values, handleChange, handleSubmit, errors}) => (
         <View style={styles.formWrapper}>
           <Avatar
             size="large"
@@ -24,23 +32,30 @@ const ContactForm = props => {
             label="First Name"
             value={values.firstName}
             onChangeText={handleChange('firstName')}
+            errorMessage={errors.firstName}
           />
           <Input
             label="Last Name"
             value={values.lastName}
             onChangeText={handleChange('lastName')}
+            errorMessage={errors.lastName}
           />
+
           <Input
             label="Age"
             value={values?.age?.toString()}
             onChangeText={handleChange('age')}
             keyboardType="numeric"
+            errorMessage={errors.age}
           />
+
           <View style={{width: '90%'}}>
             <Button
               buttonStyle={styles.buttonStyle}
               title="Save"
               onPress={handleSubmit}
+              disabled={Object.keys(errors).length !== 0 || !values.firstName}
+              disabledStyle={{backgroundColor: 'grey'}}
             />
             {/* {props.mode === 'edit' && (
               <Button
