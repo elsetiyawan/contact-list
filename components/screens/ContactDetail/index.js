@@ -36,7 +36,7 @@ const ContactDetail = props => {
       dispatch(setLoading(false));
       navigation.navigate('Home');
     } catch (e) {
-      console.log(e.response.data);
+      alert(err.response.data.message);
       dispatch(setLoading(false));
     }
   };
@@ -45,7 +45,7 @@ const ContactDetail = props => {
     api
       .deleteContact(props.route.params.userId)
       .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .catch(err => alert(err.response.data.message));
   };
 
   return (

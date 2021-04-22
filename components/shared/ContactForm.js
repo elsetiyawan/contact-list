@@ -57,13 +57,13 @@ const ContactForm = props => {
               disabled={Object.keys(errors).length !== 0 || !values.firstName}
               disabledStyle={{backgroundColor: 'grey'}}
             />
-            {/* {props.mode === 'edit' && (
+            {props.mode === 'edit' && (
               <Button
                 buttonStyle={styles.deleteButtonStyle}
                 title="Delete"
                 onPress={props.onDelete}
               />
-            )} */}
+            )}
           </View>
         </View>
       )}
