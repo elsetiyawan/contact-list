@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ContactCard} from '../../shared';
 import Api from '../../../helpers/Api';
@@ -43,16 +50,20 @@ const Home = props => {
           <Text style={styles.addContact}>Add contact</Text>
         </TouchableOpacity>
       </View>
-      <View style={{marginBottom: 100}}>
-        {!global.loading && (
+      {global.loading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color="red" />
+        </View>
+      ) : (
+        <View style={{marginBottom: 100}}>
           <FlatList
             data={dl}
             renderItem={({item}) => (
               <ContactCard {...item} onPress={() => handleCardPress(item.id)} />
             )}
           />
-        )}
-      </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -81,6 +92,11 @@ const styles = StyleSheet.create({
   },
   addContact: {
     fontWeight: 'bold',
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
